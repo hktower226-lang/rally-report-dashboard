@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>옥외집회 신고 현황 대시보드</title>
+<style>
+*{box-sizing:border-box;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{background:#f1f5f9;margin:0;padding:20px 15px;color:#1e293b}
+.container{max-width:1500px;margin:auto}header{margin-bottom:25px;text-align:center}
+h1{color:#0f172a;font-size:26px;font-weight:700;margin:0 0 10px}.subtitle{color:#64748b;font-size:14px}
+.branch-filter-container,.controls-container,.table-container{background:#fff;border-radius:12px;margin-bottom:20px}
+.branch-filter-container,.controls-container{padding:16px}.branch-filter-container{box-shadow:0 1px 3px #0000000d}
+.filter-title{font-size:13px;font-weight:600;color:#475569;margin-bottom:12px}
+.branch-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.branch-btn{background:#f8fafc;border:1px solid #cbd5e1;color:#334155;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.branch-btn:hover{background:#e2e8f0}.branch-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.count-badge{background:#00000014;padding:2px 6px;border-radius:12px;font-size:11px}.active .count-badge{background:#ffffff40}
+.controls-container{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.search-box{flex:1;min-width:260px;position:relative}.search-box input{width:100%;padding:10px 14px 10px 38px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;outline:none}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8}
+.summary-info{font-size:14px;color:#475569;font-weight:500}.summary-info span{color:#2563eb;font-weight:700}
+.table-container{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:13.5px}
+th,td{padding:12px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+th{background:#f8fafc;color:#475569;font-weight:600;white-space:nowrap}
+.branch-tag{background:#eff6ff;color:#1d4ed8;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #bfdbfe;white-space:nowrap}
+.doc-no{font-family:monospace;font-size:12px;background:#f1f5f9;padding:2px 6px;border-radius:4px}
+.event-period{font-size:12.5px;color:#0f766e;background:#f0fdf4;padding:4px 8px;border-radius:6px;border:1px solid #bbf7d0;white-space:nowrap}
+.phone-link{color:#0284c7;text-decoration:none;font-weight:500}.no-result{text-align:center;padding:40px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="container">
+<header><h1>옥외집회 신고 현황 대시보드</h1><div class="subtitle">관할 지부별 집회신고 현황 통합 관리 시스템</div></header>
+<div class="branch-filter-container"><div class="filter-title">📌 관할 선택</div><div class="branch-buttons" id="branchButtons"></div></div>
+<div class="controls-container"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="개최건설사, 장소, 접수번호 등으로 검색..." aria-label="집회신고 검색"></div><div class="summary-info">선택 지부: <span id="currentBranchDisplay">전체</span> | 조회 결과: <span id="currentCountDisplay">0</span>건</div></div>
+<div class="table-container"><table><thead><tr><th>NO</th><th>관할지부</th><th>접수번호</th><th>개최건설사 / 현장명</th><th>개최장소 (시위·행진의 진로)</th><th>개최일시 (집회 기간)</th><th>개최기관</th><th>신고일자</th><th>신고인</th><th>담당정보관 / 연락처</th></tr></thead><tbody id="tableBody"><tr><td colspan="10" class="no-result">데이터를 불러오는 중입니다.</td></tr></tbody></table></div>
+</div>
+<script>
+"use strict";
+const branches=["전체","용인","동부","서부","남부","북부","중부","남서","북서"];
+let assemblyData=[],selectedBranch="전체";
+const body=document.getElementById("tableBody"),buttons=document.getElementById("branchButtons");
+function safe(v){return String(v??"");}
+function node(tag,text,cls){const el=document.createElement(tag);el.textContent=safe(text);if(cls)el.className=cls;return el;}
+function countFor(branch){return branch==="전체"?assemblyData.length:assemblyData.filter(x=>safe(x.branch).includes(branch)).length;}
+function renderButtons(){buttons.replaceChildren();branches.forEach(branch=>{const btn=document.createElement("button");btn.type="button";btn.className="branch-btn"+(selectedBranch===branch?" active":"");btn.append(document.createTextNode(branch==="전체"?"전체보기 ":""+branch+" "));btn.append(node("span",countFor(branch),"count-badge"));btn.addEventListener("click",()=>{selectedBranch=branch;document.getElementById("currentBranchDisplay").textContent=branch;renderButtons();filterData();});buttons.append(btn);});}
+function filterData(){const q=document.getElementById("searchInput").value.toLocaleLowerCase("ko").trim();const fields=["company","location","docNo","period","agency","reporter","officer","branch","date","phone"];const found=assemblyData.filter(item=>(selectedBranch==="전체"||safe(item.branch).includes(selectedBranch))&&(!q||fields.some(k=>safe(item[k]).toLocaleLowerCase("ko").includes(q))));renderTable(found);}
+function renderTable(items){document.getElementById("currentCountDisplay").textContent=items.length;body.replaceChildren();if(!items.length){const tr=document.createElement("tr"),td=node("td",assemblyData.length?"해당 조건의 신고 내역이 없습니다.":"신고 내역이 없습니다.","no-result");td.colSpan=10;tr.append(td);body.append(tr);return;}
+items.forEach((item,i)=>{const tr=document.createElement("tr");const cell=(value,cls)=>{const td=document.createElement("td");if(cls)td.append(node("span",value,cls));else td.textContent=safe(value);tr.append(td);return td;};cell(i+1);cell(item.branch,"branch-tag");cell(item.docNo,"doc-no");const company=cell("");company.append(node("strong",item.company));cell(item.location);cell(item.period,"event-period");cell(item.agency);cell(item.date);cell(item.reporter);const td=cell("");td.append(document.createTextNode(safe(item.officer)));const phone=safe(item.phone).trim();if(phone&&phone!=="-"){td.append(document.createTextNode(" ("));const a=node("a",phone,"phone-link");a.href="tel:"+phone.replace(/[^\d+]/g,"");td.append(a,document.createTextNode(")"));}body.append(tr);});}
+document.getElementById("searchInput").addEventListener("input",filterData);
+fetch("./assemblyData.json",{cache:"no-store"}).then(res=>{if(!res.ok)throw Error("HTTP "+res.status);return res.json();}).then(data=>{if(!Array.isArray(data))throw Error("Invalid JSON format");assemblyData=data;renderButtons();filterData();}).catch(err=>{console.error("Data Load Error:",err);body.replaceChildren();const tr=document.createElement("tr"),td=node("td","데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.","no-result");td.colSpan=10;tr.append(td);body.append(tr);});
+renderButtons();
+</script>
+</body>
+</html>
