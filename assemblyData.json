@@ -1568,7 +1568,7 @@
     "period": "2026-11-13 ~ 2026-12-11 (07:00~17:00)",
     "agency": "서울성북경찰서",
     "date": "2026-11-11",
-    "reporter": "",
+    "reporter": "성경민",
     "officer": "박기완",
     "phone": "010-9169-6114",
     "source": "2026-11-11 옥외집회 신고 접수증 사진; Google Drive 14B06oqd0sWALZ_W4i5YhWI3MoW7A6PRw"
@@ -1582,10 +1582,25 @@
     "period": "2026-11-13 ~ 2026-12-11 (00:00~23:59)",
     "agency": "서울중부경찰서",
     "date": "2026-11-11",
-    "reporter": "",
+    "reporter": "성경민",
     "officer": "",
     "phone": "",
     "note": "2026-11-18~19 수능시험 전일 및 당일 집회 미개최 예정",
     "source": "2026-11-11 옥외집회 신고 접수증 사진; Google Drive 1SPZfrCwyUfmoNuc_xj_2o0XqxfeFWV8H"
+  },
+  {
+    "id": 115,
+    "branch": "수도권통합본부",
+    "docNo": "제26-1810001-002799 호",
+    "company": "두산에너빌리티 확대1",
+    "location": "서울특별시 용산구 한남동 312-6 ~ 28-18 CU 앞 이면도로",
+    "period": "2026-11-14 ~ 2026-12-11 (00:00~23:59)",
+    "agency": "서울용산경찰서",
+    "date": "2026-11-11",
+    "reporter": "성경민",
+    "officer": "",
+    "phone": "",
+    "note": "매일 06:00 이후 집회 가능, 07:00 이후 음향 송출 가능",
+    "source": "2026-11-11 옥외집회 신고 접수증 사진; Google Drive 1OSMpXt_PeGGQd8Gg6mf8VFW9oiYlyzO_"
   }
 ]
