@@ -50,9 +50,26 @@ a:focus-visible,summary:focus-visible{outline:3px solid #e4af45;outline-offset:2
 #personal-empty{font-size:13px;color:#64768e}
 .personal-item[hidden],#personal-empty[hidden]{display:none}
 @media(min-width:700px){.personal-list{grid-template-columns:1fr 1fr}}
+
+.quick-nav{background:#fff;border:1px solid #d3dff0;border-radius:13px;padding:13px 14px;margin-bottom:14px}
+.quick-nav-text{margin:0 0 10px;font-size:13px;color:#4e6682;line-height:1.5}
+.quick-nav-text strong{color:#1c4b8e}
+.quick-nav-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick-link{display:flex;justify-content:center;align-items:center;gap:6px;min-height:42px;border-radius:9px;background:#235bb1;color:white;font-size:13px;font-weight:850;border:1px solid #235bb1;padding:9px 7px;text-align:center}
+.quick-link:last-child{color:#1c529d;background:#f0f6ff;border:1px solid #bcd0eb}
+.quick-link:focus-visible{outline:3px solid #e7b954;outline-offset:2px}
+#branch-schedules,#personal{scroll-margin-top:12px}
+@media(max-width:360px){.quick-link{font-size:12px}.quick-link span{display:none}}
 </style></head><body>
 <header><div class="wrap"><small>한국타워크레인조종사노동조합 경기지역본부</small><h1>2026년 11월 3주차 일정공지</h1><p>2026년 11월 16일(월) ~ 11월 20일(금)</p></div></header>
 <main class="wrap">
+<div class="quick-nav" aria-label="일정 확인 메뉴">
+ <p class="quick-nav-text">아래 버튼을 누르면 <strong>지부별 일정</strong>과 <strong>개인별 일정</strong>을 각각 확인할 수 있습니다.</p>
+ <div class="quick-nav-buttons">
+  <a class="quick-link" href="#branch-schedules"><span>📋</span> 지부별 일정 확인</a>
+  <a class="quick-link" href="#personal"><span>👤</span> 이름별 일정 확인</a>
+ </div>
+</div>
 <div class="pause">📌 11월 18일(수)~19일(목): 수능 관련 집회 보류</div>
 <section><h2>공통 안내</h2><div class="card common">
 <p>① <strong>지정인원 우선 참여</strong> · 지정인원 결원 시 해당 지부 예비인원 대체</p>
@@ -63,7 +80,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid #e4af45;outline-offset:2
 </div>
 <div class="day-strip" role="group" aria-label="일정 날짜 선택"><button type="button" class="day selected" data-day="16" aria-pressed="true"><b>16일 월</b><span>집회 진행</span></button><button type="button" class="day" data-day="17" aria-pressed="false"><b>17일 화</b><span>집회 진행</span></button><button type="button" class="day hold" data-day="18" aria-pressed="false"><b>18일 수</b><span>보류</span></button><button type="button" class="day hold" data-day="19" aria-pressed="false"><b>19일 목</b><span>보류</span></button><button type="button" class="day" data-day="20" aria-pressed="false"><b>20일 금</b><span>집회 진행</span></button></div>
 <div class="nav" role="group" aria-label="지부 선택"><button type="button" class="region-btn selected" data-region="all" aria-pressed="true">전체</button><button type="button" class="region-btn" data-region="south" aria-pressed="false">남부</button><button type="button" class="region-btn" data-region="southwest" aria-pressed="false">남서</button><button type="button" class="region-btn" data-region="west" aria-pressed="false">서부</button><button type="button" class="region-btn" data-region="northwest" aria-pressed="false">북서</button><button type="button" class="region-btn" data-region="east" aria-pressed="false">동부</button></div></section>
-<section><h2>지역별 집회 일정 및 인원</h2><div class="grid"><article class="card region" id="south"><div class="region-head"><div><h3>남부지부</h3><div class="role">계룡건설 집회 · 주관</div></div></div><div class="special">김시삼 조합원은 출근 전까지 집회 필수 참여 (집회 보류일 제외)</div>
+<section id="branch-schedules"><h2>지역별 집회 일정 및 인원</h2><div class="grid"><article class="card region" id="south"><div class="region-head"><div><h3>남부지부</h3><div class="role">계룡건설 집회 · 주관</div></div></div><div class="special">김시삼 조합원은 출근 전까지 집회 필수 참여 (집회 보류일 제외)</div>
  <div class="day-panel" data-schedule="16"><div class="place"><div class="time">07~09시</div><div class="place-content"><strong>계룡 확대2</strong><div class="address">주소: <a href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%9C%A0%EC%84%B1%EA%B5%AC%20%EB%8F%84%EB%A3%A1%EB%8F%99%20383-24%20%EA%B3%84%EB%A3%A1%EA%B1%B4%EC%84%A4%20%ED%99%95%EB%8C%802" target="_blank" rel="noopener">대전광역시 유성구 도룡동 383-24</a></div><details class="permit"><summary>집회신고 상세 보기</summary><div class="permit-body"><p><b>신고기간</b> 2026-11-13 ~ 2026-12-10</p><p><b>경찰서</b> 대전유성경찰서</p><p><b>신고번호</b> 제26-1811833-000453호</p><p><b>신고구역</b> 인근 인도 약 50m, 신고 지도상 우측</p></div></details></div></div><div class="place"><div class="time">09~14시</div><div class="place-content"><strong>계룡건설 본사</strong><div class="address">주소: <a href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%AC%B8%EC%A0%95%EB%A1%9C48%EB%B2%88%EA%B8%B8%2048%20%EA%B3%84%EB%A3%A1%EA%B1%B4%EC%84%A4%20%EB%B3%B8%EC%82%AC" target="_blank" rel="noopener">대전광역시 서구 문정로48번길 48</a></div><details class="permit"><summary>집회신고 상세 보기</summary><div class="permit-body"><p><b>신고기간</b> 2026-10-31 ~ 2026-11-20</p><p><b>경찰서</b> 대전둔산경찰서</p><p><b>신고번호</b> 제26-1811833-000370호</p><p><b>신고구역</b> 정문 앞 인도 30m</p></div></details></div></div>
  </div><div class="day-panel" data-schedule="17,20" hidden><div class="place"><div class="time">07~09시</div><div class="place-content"><strong>계룡 확대2</strong><div class="address">주소: <a href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%9C%A0%EC%84%B1%EA%B5%AC%20%EB%8F%84%EB%A3%A1%EB%8F%99%20383-24%20%EA%B3%84%EB%A3%A1%EA%B1%B4%EC%84%A4%20%ED%99%95%EB%8C%802" target="_blank" rel="noopener">대전광역시 유성구 도룡동 383-24</a></div><details class="permit"><summary>집회신고 상세 보기</summary><div class="permit-body"><p><b>신고기간</b> 2026-11-13 ~ 2026-12-10</p><p><b>경찰서</b> 대전유성경찰서</p><p><b>신고번호</b> 제26-1811833-000453호</p><p><b>신고구역</b> 인근 인도 약 50m, 신고 지도상 우측</p></div></details></div></div><div class="place"><div class="time">09~14시</div><div class="place-content"><strong>계룡건설 본사</strong><div class="address">주소: <a href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%AC%B8%EC%A0%95%EB%A1%9C48%EB%B2%88%EA%B8%B8%2048%20%EA%B3%84%EB%A3%A1%EA%B1%B4%EC%84%A4%20%EB%B3%B8%EC%82%AC" target="_blank" rel="noopener">대전광역시 서구 문정로48번길 48</a></div><details class="permit"><summary>집회신고 상세 보기</summary><div class="permit-body"><p><b>신고기간</b> 2026-10-31 ~ 2026-11-20</p><p><b>경찰서</b> 대전둔산경찰서</p><p><b>신고번호</b> 제26-1811833-000370호</p><p><b>신고구역</b> 정문 앞 인도 30m</p></div></details></div></div>
  </div><div class="day-panel paused" data-schedule="18,19" hidden><div class="pause">집회 보류 · 집결하지 않습니다.</div></div><div class="label">지정인원</div><div class="people"><details class="person"><summary>김시삼<small>출근 전 필수참여</small><span class="down">연락처 ▾</span></summary><div class="phone">010-7556-6759 <a href="tel:01075566759">전화</a></div></details><details class="person"><summary>박규원<span class="down">연락처 ▾</span></summary><div class="phone">010-3589-7970 <a href="tel:01035897970">전화</a></div></details></div>
