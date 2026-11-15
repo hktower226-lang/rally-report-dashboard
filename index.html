@@ -54,7 +54,7 @@ function renderButtons(){buttons.replaceChildren();branches.forEach(branch=>{con
 // 한국시간의 오늘 날짜를 기준으로, 개최 종료일은 당일까지 유효합니다.
 function todayKST(){return new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
 function periodStatus(period){
- const matches=safe(period).match(/\\d{4}-\\d{2}-\\d{2}/g);
+ const matches=safe(period).match(/\d{4}-\d{2}-\d{2}/g);
  if(!matches||matches.length<2)return {text:"기간 확인필요",cls:"status-unknown"};
  const end=matches[matches.length-1],today=todayKST();
  const days=Math.round((Date.parse(end+"T00:00:00Z")-Date.parse(today+"T00:00:00Z"))/86400000);
