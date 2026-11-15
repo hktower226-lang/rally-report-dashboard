@@ -32,6 +32,7 @@ th{background:#f8fafc;color:#475569;font-weight:600;white-space:nowrap}
 .status-active{background:#dcfce7;color:#166534;border:1px solid #86efac}
 .status-unknown{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1}
 tr.row-soon{background:#fffbeb}tr.row-ended{background:#fff1f2}
+.copy-btn{display:block;margin-top:7px;padding:6px 10px;border:1px solid #93c5fd;border-radius:6px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}.copy-btn:hover{background:#dbeafe}.copy-btn:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
 .phone-link{color:#0284c7;text-decoration:none;font-weight:500}.no-result{text-align:center;padding:40px;color:#94a3b8}
 </style>
 </head>
@@ -63,9 +64,21 @@ function periodStatus(period){
  if(days<=7)return {text:"연장필요",cls:"status-soon"};
  return {text:"진행중",cls:"status-active"};
 }
+async function copyCompanyAddress(item,button){
+ const value=[safe(item.company).trim(),safe(item.location).trim()].filter(Boolean).join("\n");
+ if(!value){button.textContent="복사할 내용 없음";return;}
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);}
+  else{
+   const area=document.createElement("textarea");area.value=value;area.setAttribute("readonly","");area.style.position="fixed";area.style.opacity="0";document.body.append(area);area.select();
+   const ok=document.execCommand("copy");area.remove();if(!ok)throw Error("복사 실패");
+  }
+  button.textContent="✓ 복사완료";
+ }catch(e){console.error("Clipboard Error:",e);button.textContent="복사 실패"; }
+}
 function filterData(){const q=document.getElementById("searchInput").value.toLocaleLowerCase("ko").trim();const fields=["company","location","docNo","period","agency","reporter","officer","branch","date","phone"];const found=assemblyData.filter(item=>(selectedBranch==="전체"||safe(item.branch).includes(selectedBranch))&&(!q||fields.some(k=>safe(item[k]).toLocaleLowerCase("ko").includes(q))));renderTable(found);}
 function renderTable(items){document.getElementById("currentCountDisplay").textContent=items.length;body.replaceChildren();if(!items.length){const tr=document.createElement("tr"),td=node("td",assemblyData.length?"해당 조건의 신고 내역이 없습니다.":"신고 내역이 없습니다.","no-result");td.colSpan=11;tr.append(td);body.append(tr);return;}
-items.forEach((item,i)=>{const tr=document.createElement("tr");const status=periodStatus(item.period);if(status.cls==="status-ended")tr.classList.add("row-ended");else if(status.cls==="status-soon")tr.classList.add("row-soon");const cell=(value,cls)=>{const td=document.createElement("td");if(cls)td.append(node("span",value,cls));else td.textContent=safe(value);tr.append(td);return td;};cell(i+1);cell(item.branch,"branch-tag");cell(item.docNo,"doc-no");const company=cell("");company.append(node("strong",item.company));cell(item.location);cell(item.period,"event-period");cell(status.text,"status-badge "+status.cls);cell(item.agency);cell(item.date);cell(item.reporter);const td=cell("");td.append(document.createTextNode(safe(item.officer)));const phone=safe(item.phone).trim();if(phone&&phone!=="-"){td.append(document.createTextNode(" ("));const a=node("a",phone,"phone-link");a.href="tel:"+phone.replace(/[^\d+]/g,"");td.append(a,document.createTextNode(")"));}body.append(tr);});}
+items.forEach((item,i)=>{const tr=document.createElement("tr");const status=periodStatus(item.period);if(status.cls==="status-ended")tr.classList.add("row-ended");else if(status.cls==="status-soon")tr.classList.add("row-soon");const cell=(value,cls)=>{const td=document.createElement("td");if(cls)td.append(node("span",value,cls));else td.textContent=safe(value);tr.append(td);return td;};cell(i+1);cell(item.branch,"branch-tag");cell(item.docNo,"doc-no");const company=cell("");company.append(node("strong",item.company));const copyBtn=node("button","📋 건설사·주소 복사","copy-btn");copyBtn.type="button";copyBtn.title="개최건설사와 개최장소 주소 함께 복사";copyBtn.addEventListener("click",()=>copyCompanyAddress(item,copyBtn));company.append(copyBtn);cell(item.location);cell(item.period,"event-period");cell(status.text,"status-badge "+status.cls);cell(item.agency);cell(item.date);cell(item.reporter);const td=cell("");td.append(document.createTextNode(safe(item.officer)));const phone=safe(item.phone).trim();if(phone&&phone!=="-"){td.append(document.createTextNode(" ("));const a=node("a",phone,"phone-link");a.href="tel:"+phone.replace(/[^\d+]/g,"");td.append(a,document.createTextNode(")"));}body.append(tr);});}
 document.getElementById("searchInput").addEventListener("input",filterData);
 fetch("./assemblyData.json",{cache:"no-store"}).then(res=>{if(!res.ok)throw Error("HTTP "+res.status);return res.json();}).then(data=>{if(!Array.isArray(data))throw Error("Invalid JSON format");assemblyData=data;renderButtons();filterData();}).catch(err=>{console.error("Data Load Error:",err);body.replaceChildren();const tr=document.createElement("tr"),td=node("td","데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.","no-result");td.colSpan=10;tr.append(td);body.append(tr);});
 renderButtons();
